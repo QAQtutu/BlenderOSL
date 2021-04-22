@@ -7,7 +7,7 @@
 
 ![avatar](./UV.png)
 
-3. 导入OSL Shader, 输入UV 和当前帧数。当前帧数可新建明度节点，输入#frame。
+3. 修改渲染器未Cycles,勾选开放式着色语言（OSL），设置视图和渲染采样为1。 导入particle.osl, 输入UV 和当前帧数。当前帧数可新建明度节点，输入#frame。
 
 ![avatar](./Shading.png)
 
