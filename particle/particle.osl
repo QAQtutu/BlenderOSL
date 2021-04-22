@@ -1,0 +1,44 @@
+#define NUM_PARTICLES 200.0
+#define GLOW 0.4
+
+shader particle
+(
+  vector  uv= vector (0,0,0),
+  // 当前帧数
+  int frame =0,
+  // 粒子半径
+  float radius = 0.004,
+  // 输出色
+  output  color outColor = 0
+)
+{
+  // 当前时间（m秒）
+  float time_ =1.0 * frame/24 ;
+
+  /**
+  * 粒子的光对当前点的影响
+  */
+  color Orb(point uv, color c, float radius, float offset)
+  {        
+      //粒子位置
+      point position = point(sin(offset * (time_+30.)), cos(offset * (time_+30.)),0);
+      position *= sin((time_ ) - offset ) * cos(offset);
+      float radius_ = radius * offset;
+      //粒子到当前点的距离
+      float dist = radius_ / distance(uv, position);
+      return c * pow(dist, 1.0 / GLOW);
+  }
+  // 当前点的颜色
+  color pixel = 0;
+  // 当前时刻粒子颜色
+  color c = 0;
+  c[0] = ((sin(((time_)) * 0.55) + 1.5) * 0.4);
+  c[1] = ((sin(((time_)) * 0.34) + 2.0) * 0.4);
+  c[2] = ((sin(((time_)) * 0.31) + 4.5) * 0.3);
+  // 计算各个粒子对当前点的影响 
+  for	(float i = 0.0; i < NUM_PARTICLES; i++){
+    pixel += Orb(uv, c, radius, i / NUM_PARTICLES );
+  }
+  //混合输出
+  outColor =  mix(color(uv[0],uv[1],0.8+0.5*sin(time_)),  pixel ,0.983);
+}
